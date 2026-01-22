@@ -67,4 +67,8 @@ export const config = [
 		time: '2026/01/22',
 		body: '是你选女朋友，不是女朋友选你',
 	},
+	{
+		time: 'everyday',
+		body: 'sb',
+	},
 ]
