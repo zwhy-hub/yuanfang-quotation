@@ -76,7 +76,7 @@ export const config = [
     time: 'everyday',
   },
   {
-    body: '1',
+    body: '我不举',
     time: '',
   },
 ];
