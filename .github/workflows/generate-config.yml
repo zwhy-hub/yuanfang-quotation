@@ -25,7 +25,7 @@ jobs:
               run: node scripts/quotes-to-config.js
 
             - name: Format generated file
-              run: npx prettier --write config.ts
+              run: npx prettier --write src/config.ts
 
             - name: Commit & push if changed
               run: |

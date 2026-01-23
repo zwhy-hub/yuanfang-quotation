@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 
 const QUOTES_FILE = path.resolve('quotes.md')
-const OUTPUT_FILE = path.resolve('config.ts')
+const OUTPUT_FILE = path.resolve('src/config.ts')
 
 const normalizeTime = (raw) => {
 	if (!raw) return ''
