@@ -1,3 +1,6 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { Marquee } from '@/components/ui/marquee'
 import { config } from '@/config'
@@ -16,13 +19,29 @@ function distributeToRows(items: typeof config, rowCount: number) {
 	return rows
 }
 
-const rows = distributeToRows(config, 4)
+function useRowCount() {
+	const [rowCount, setRowCount] = useState(4)
+
+	useEffect(() => {
+		const mediaQuery = window.matchMedia('(min-width: 768px)')
+		const updateRowCount = () => setRowCount(mediaQuery.matches ? 4 : 2)
+
+		updateRowCount()
+		mediaQuery.addEventListener('change', updateRowCount)
+
+		return () => mediaQuery.removeEventListener('change', updateRowCount)
+	}, [])
+
+	return rowCount
+}
 
 const ReviewCard = ({ time, body }: { time: string; body: string }) => {
 	return (
 		<figure
 			className={cn(
-				'relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4',
+				'relative h-full w-56',
+				'cursor-pointer overflow-hidden rounded-xl border p-3',
+				' md:w-64 md:p-4',
 				// light styles
 				'border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]',
 				// dark styles
@@ -36,14 +55,17 @@ const ReviewCard = ({ time, body }: { time: string; body: string }) => {
 					<p className='text-xs font-medium dark:text-white/40'>{time}</p>
 				</div>
 			</div>
-			<blockquote className='mt-2 text-sm'>{body}</blockquote>
+			<blockquote className='mt-2 text-sm break-words'>{body}</blockquote>
 		</figure>
 	)
 }
 
 export function MarqueeCards() {
+	const rowCount = useRowCount()
+	const rows = distributeToRows(config, rowCount)
+
 	return (
-		<div className='relative flex w-full flex-col items-center justify-center overflow-hidden'>
+		<div className='relative flex w-full h-full flex-col items-center justify-center overflow-hidden'>
 			{rows.map((row, index) => (
 				<Marquee key={index} reverse={index % 2 === 1} pauseOnHover className='[--duration:20s]'>
 					{row.map((review) => (
@@ -51,8 +73,8 @@ export function MarqueeCards() {
 					))}
 				</Marquee>
 			))}
-			<div className='from-background pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r'></div>
-			<div className='from-background pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l'></div>
+			<div className='from-background pointer-events-none absolute inset-y-0 left-0 w-1/6 md:w-1/4 bg-gradient-to-r'></div>
+			<div className='from-background pointer-events-none absolute inset-y-0 right-0 w-1/6 md:w-1/4 bg-gradient-to-l'></div>
 		</div>
 	)
 }
