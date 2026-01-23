@@ -4,6 +4,8 @@
 
 ---
 
-直接在 quote.md 中编辑上传即可
+直接在 quotes.md 中编辑上传即可
+
+预览地址：https://yuanfang-sex.vercel.app/
 
 ---
