@@ -1,36 +1,36 @@
 name: Auto Generate Config
 
 on:
-    push:
-        paths:
-            - 'quotes.md'
+  push:
+    paths:
+      - 'quotes.md'
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
-    generate:
-        runs-on: ubuntu-latest
+  generate:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 18
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-            - name: Generate config.ts
-              run: node scripts/quotes-to-config.js
+      - name: Generate config.ts
+        run: node scripts/quotes-to-config.js
 
-            - name: Format generated file
-              run: npx prettier --write src/config.ts
+      - name: Format generated file
+        run: npx prettier --write src/config.ts
 
-            - name: Commit & push if changed
-              run: |
-                  git config user.name "quote-bot"
-                  git config user.email "quote-bot@users.noreply.github.com"
-                  git add config.ts
-                  git diff --cached --quiet || git commit -m "chore: auto generate config"
-                  git push
+      - name: Commit & push if changed
+        run: |
+          git config user.name "quote-bot"
+          git config user.email "quote-bot@users.noreply.github.com"
+          git add src/config.ts
+          git diff --cached --quiet || git commit -m "chore: auto generate config"
+          git push
